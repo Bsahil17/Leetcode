@@ -8,22 +8,50 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
+// class Solution {
+//     public boolean isPalindrome(ListNode head) {
+//        ArrayList<Integer> list=new ArrayList<>();
+//        while(head!=null){
+//         list.add(head.val);
+//         head=head.next;
+//        }
+//        int i=0, j=list.size()-1;
+//        while(i<j){
+//         if(!list.get(i).equals(list.get(j))){
+//            return false;
+//         }
+//            i++;
+//            j--;
+        
+//        }
+//        return true;
+//     }
+// }
+
 class Solution {
     public boolean isPalindrome(ListNode head) {
-       ArrayList<Integer> list=new ArrayList<>();
-       while(head!=null){
-        list.add(head.val);
-        head=head.next;
-       }
-       int i=0, j=list.size()-1;
-       while(i<j){
-        if(!list.get(i).equals(list.get(j))){
-           return false;
+        ListNode slow=head;
+        ListNode fast=head;
+        //middle
+        while(fast!=null && fast.next!=null){
+            slow=slow.next;
+            fast=fast.next.next;
         }
-           i++;
-           j--;
-        
-       }
-       return true;
+        //reverse from middle to last
+        ListNode prev=null;
+        while(slow!=null){
+            ListNode next=slow.next;
+            slow.next=prev;
+            prev=slow;
+            slow=next;
+        }
+        while(prev!=null){
+            if(head.val!=prev.val){
+                return false;
+            }
+            head=head.next;
+            prev=prev.next;
+        }
+        return true;
     }
 }
