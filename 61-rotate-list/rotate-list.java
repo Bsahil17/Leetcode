@@ -8,31 +8,58 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
+// class Solution {
+//     public ListNode rotateRight(ListNode head, int k) {
+//         if(head==null||head.next==null ||k==0){
+//             return head;
+//         }
+//       ArrayList<Integer> list=new ArrayList<>();
+//       ListNode curr=head;
+//       while(curr!=null){
+//         list.add(curr.val);
+//         curr=curr.next;
+//       }  
+//       int n=list.size();
+//       k=k%n;
+
+//     for(int i=0;i<k;i++){
+//         int last=list.remove(n-1);
+//         list.add(0,last);
+//     }      
+//     curr=head;
+//     int inx=0;
+//     while(curr!=null){
+//      curr.val=list.get(inx);
+//      curr=curr.next;
+//      inx++;   
+//     }
+//     return head;
+//     }
+// }
+
 class Solution {
     public ListNode rotateRight(ListNode head, int k) {
-        if(head==null||head.next==null ||k==0){
+        if(head==null ||head.next==null || k==0){
             return head;
         }
-      ArrayList<Integer> list=new ArrayList<>();
-      ListNode curr=head;
-      while(curr!=null){
-        list.add(curr.val);
-        curr=curr.next;
-      }  
-      int n=list.size();
-      k=k%n;
+        ListNode curr=head;
+        int len=1;
+        while(curr.next!=null){
+            curr=curr.next;
+            len++;
+        }
+        k=k%len;
+        ListNode newhead=head;
+        
+        curr.next=head;
+        int steps=len-k;
+        for(int i=1;i<steps;i++){
+            newhead=newhead.next;
+        }
+        
+        ListNode newcurr=newhead.next;
+        newhead.next=null;
+        return newcurr;
 
-    for(int i=0;i<k;i++){
-        int last=list.remove(n-1);
-        list.add(0,last);
-    }      
-    curr=head;
-    int inx=0;
-    while(curr!=null){
-     curr.val=list.get(inx);
-     curr=curr.next;
-     inx++;   
-    }
-    return head;
     }
 }
