@@ -8,22 +8,66 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
+// class Solution {
+//     public ListNode sortList(ListNode head) {
+//       ArrayList<Integer> list=new ArrayList<>();
+//       ListNode curr=head;
+//       while(curr!=null){
+//         list.add(curr.val);
+//         curr=curr.next;
+//       }  
+//       Collections.sort(list);
+//       curr=head;
+//       int index=0;
+//       while(curr!=null){
+//         curr.val=list.get(index);
+//         index++;
+//         curr=curr.next;
+//       }
+//       return head;
+//     }
+// }
+
+
+
 class Solution {
     public ListNode sortList(ListNode head) {
-      ArrayList<Integer> list=new ArrayList<>();
-      ListNode curr=head;
-      while(curr!=null){
-        list.add(curr.val);
+        if(head==null ||head.next==null){
+            return head;
+        }
+        ListNode slow=head;
+        ListNode fast=head.next;
+        while(fast!=null && fast.next!=null){
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+        ListNode secondhead=slow.next;
+        slow.next=null;
+
+        ListNode left=sortList(head);
+        ListNode right=sortList(secondhead);
+        return merge(left,right);
+
+    }
+    public ListNode merge(ListNode l1,ListNode l2){
+        ListNode dummy=new ListNode(0);
+        ListNode curr=dummy;
+        while(l1!=null && l2!=null){
+        if(l1.val<=l2.val){
+            curr.next=l1;
+            l1=l1.next;
+        }else{
+            curr.next=l2;
+            l2=l2.next;
+        }
         curr=curr.next;
-      }  
-      Collections.sort(list);
-      curr=head;
-      int index=0;
-      while(curr!=null){
-        curr.val=list.get(index);
-        index++;
-        curr=curr.next;
-      }
-      return head;
+        }
+        if(l1!=null){
+            curr.next=l1;
+        }
+        if(l2!=null){
+            curr.next=l2;
+        }
+        return dummy.next;
     }
 }
